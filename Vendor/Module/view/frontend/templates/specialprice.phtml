@@ -1,0 +1,61 @@
+<?php
+use Psr\Log\LoggerInterface;
+
+/** @var \Magento\Framework\App\ObjectManager $objectManager */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
+/** @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory */
+$productCollectionFactory = $objectManager->get(\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory::class);
+
+/** @var \Magento\Catalog\Helper\Image $imageHelper */
+$imageHelper = $objectManager->get(\Magento\Catalog\Helper\Image::class);
+
+/** @var LoggerInterface $logger */
+$logger = $objectManager->get(\Psr\Log\LoggerInterface::class);
+
+$productCollection = $productCollectionFactory->create();
+$productCollection->addAttributeToSelect(['name', 'price', 'image', 'special_price'])
+                  ->addAttributeToFilter('special_offer', 1)
+                  ->setPageSize(10);
+
+// Log the special_offer value for each product
+foreach ($productCollection as $product) {
+    $logger->info('Special Offer Product:', [
+        'ID' => $product->getId(),
+        'Name' => $product->getName(),
+        'Price' => $product->getPrice(),
+        'Special Offer' => $product->getData('special_offer')
+    ]);
+}
+?>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<div class="container mt-4">
+    <h2 class="mb-4">Special Offer Products</h2>
+    <div class="row">
+        <?php if ($productCollection->getSize() > 0): ?>
+            <?php foreach ($productCollection as $product): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="<?php echo $imageHelper->init($product, 'product_base_image')->getUrl(); ?>" class="card-img-top" alt="<?php echo $product->getName(); ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $product->getName(); ?></h5>
+                            <p class="card-text">
+                                Price: <strong><?php echo $product->getPrice(); ?></strong><br>
+                                Special Price: 
+                                <?php if ($product->getSpecialPrice()): ?>
+                                    <strong class="text-danger"><?php echo $product->getSpecialPrice(); ?></strong>
+                                <?php else: ?>
+                                    <span>N/A</span>
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No special offer products found.</p>
+        <?php endif; ?>
+    </div>
+</div>

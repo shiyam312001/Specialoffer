@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">promotion_listing.promotion_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="promotions/promotion/new"/>
+                <class>primary</class>
+                <label translate="true">Add New Promotion</label>
+            </button>
+        </buttons>
+        <spinner>promotion_columns</spinner>
+        <deps>
+            <dep>promotion_listing.promotion_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="promotion_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Vendor_Module::promotions</aclResource>
+        <dataProvider class="Vendor\Module\Ui\Component\DataProvider" name="promotion_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <columns name="promotion_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="entity_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="title">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Title</label>
+            </settings>
+        </column>
+        <column name="promotion_type">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Type</label>
+            </settings>
+        </column>
+        <column name="discount_amount" class="Magento\Catalog\Ui\Component\Listing\Columns\Price">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Discount</label>
+            </settings>
+        </column>
+        <column name="start_date" class="Magento\Ui\Component\Listing\Columns\Date">
+            <settings>
+                <filter>dateRange</filter>
+                <label translate="true">Start Date</label>
+            </settings>
+        </column>
+        <column name="end_date" class="Magento\Ui\Component\Listing\Columns\Date">
+            <settings>
+                <filter>dateRange</filter>
+                <label translate="true">End Date</label>
+            </settings>
+        </column>
+        <column name="status">
+            <settings>
+                <options>
+                    <option name="0" xsi:type="array">
+                        <item name="value" xsi:type="number">0</item>
+                        <item name="label" xsi:type="string" translate="true">Disabled</item>
+                    </option>
+                    <option name="1" xsi:type="array">
+                        <item name="value" xsi:type="number">1</item>
+                        <item name="label" xsi:type="string" translate="true">Enabled</item>
+                    </option>
+                </options>
+                <filter>select</filter>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Vendor\Module\Ui\Component\Listing\Column\PromotionActions">
+            <settings>
+                <indexField>entity_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

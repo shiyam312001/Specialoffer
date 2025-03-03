@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Vendor_Module::promotions" title="Promotions" translate="title" module="Vendor_Module" sortOrder="50" parent="Magento_Backend::marketing" resource="Vendor_Module::promotions"/>
+        <add id="Vendor_Module::promotion_management" title="Manage Promotions" translate="title" module="Vendor_Module" sortOrder="10" parent="Vendor_Module::promotions" action="promotions/promotion/index" resource="Vendor_Module::promotion_management"/>
+    </menu>
+</config>

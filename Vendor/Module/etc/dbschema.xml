@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/db_schema.xsd">
+    <table name="custom_promotions" resource="default" engine="innodb" comment="Custom Promotions Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Promotion Title"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Promotion Description"/>
+        <column xsi:type="decimal" name="discount_amount" scale="4" precision="12" unsigned="true" nullable="false" default="0" comment="Discount Amount"/>
+        <column xsi:type="varchar" name="promotion_type" nullable="false" length="50" comment="Promotion Type"/>
+        <column xsi:type="datetime" name="start_date" nullable="true" comment="Start Date"/>
+        <column xsi:type="datetime" name="end_date" nullable="true" comment="End Date"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" default="0" comment="Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+</schema>
